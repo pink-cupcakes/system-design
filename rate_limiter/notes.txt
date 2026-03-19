@@ -1,0 +1,12 @@
+Overview:
+1. Token bucket
+This is very simple design where traffic is accepted until a certain limit in a timeframe. All other requests are dropped - 429.
+
+Design:
+Client -> Rate limiter -> (rules DB, Redis) -> fan out to service
+
+Gotchas:
+- Redis is not atomic. It requires instructions to be sent in Lua to be ran in a single transaction
+- Consider bucket design: "{key_name}:{now/time_window}" provides a good design
+- INCR will default to 0 in redis and then increment, resulting in 1 on non-existing keys which flows nicely
+- Lua script takes service_name, window, rate -> easier implementation decoupling bucket logic from rate limiter
