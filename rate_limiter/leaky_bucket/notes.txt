@@ -1,0 +1,14 @@
+Overview:
+Leaky bucket is very straightforward. Fixed queue length. Throttled via rate workers pull from queue
+
+Design:
+Client request -> Queue -> Workers (at a constant rate)
+
+The polling may be done via an orchestrator
+
+Tradeoff:
+Smooth downstream traffic
+Clients performance may suffer if its requests enters a crowded queue. Needs to wait for existing traffic to drain
+This is not exact rate limit. If requests take longer to process, it degrates the worker's ability to deliver constant drain rate
+
+This is more ACADEMIC in practice - it doesn't deliver strong garauntees or user experience. Not used in practice
