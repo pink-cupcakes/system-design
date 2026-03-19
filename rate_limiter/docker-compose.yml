@@ -1,0 +1,6 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    # no password for local dev; add command: redis-server --requirepass xxx for auth
